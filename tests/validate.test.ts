@@ -30,18 +30,20 @@ describe("validate", async () => {
             ],
         })
 
-        expect(sanitizeValidationErrors(validationResult.errors)).toEqual(`Failed with these errors:
+        expect(sanitizeValidationErrors(validationResult.errors)).toMatchInlineSnapshot(`
+          "Failed with these errors:
 
-- 'team' refers to a model which cannot used as an input on line 61:40 until 61:44
-- create actions must accept all required fields that have no default value on line 17:9 until 20:10
-- create actions must accept all required fields that have no default value on line 58:9 until 60:10
-- create actions must accept all required fields that have no default value on line 61:9 until 61:45
-- field user has an unsupported type User on line 51:9 until 51:13
-- 'id' not found on 'User' on line 59:32 until 59:34
-- 'user' not found on 'Identity' on line 59:50 until 59:54
-- The field 'teams' does not have an associated field on UserTeam on line 9:9 until 9:25
-- 'user' not found on 'Identity' on line 44:34 until 44:38
-- Operator '=' not permitted on @permission on line 68:35 until 68:36
-`)
+          - Line 61: 'team' refers to a model which cannot used as an input. Inputs must target fields on models only, e.g team.id
+          - Line 17-20: create actions must accept all required fields that have no default value. maybe add email to the with() inputs or a @set expression
+          - Line 58-60: create actions must accept all required fields that have no default value. maybe add user to the with() inputs or a @set expression
+          - Line 61: create actions must accept all required fields that have no default value. maybe add team.name to the with() inputs or a @set expression
+          - Line 51: field user has an unsupported type User. Did you mean one of UserTeam?
+          - Line 59: 'id' not found on 'User'. 
+          - Line 59: 'user' not found on 'Identity'. Did you mean one of email, emailVerified, password, externalId, issuer, id, createdAt, updatedAt, or account?
+          - Line 9: The field 'teams' does not have an associated field on UserTeam. In a one to many relationship, the related belongs-to field must exist on UserTeam. To learn more about relationships, visit https://docs.keel.so/models#relationships
+          - Line 44: 'user' not found on 'Identity'. Did you mean one of email, emailVerified, password, externalId, issuer, id, createdAt, updatedAt, or account?
+          - Line 68: Operator '=' not permitted on @permission. Did you mean ==?
+          "
+        `)
     })
 })

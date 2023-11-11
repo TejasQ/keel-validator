@@ -10,8 +10,10 @@ export const sanitizeValidationErrors = (errors: Error[]) => {
             pos,
             endPos,
             message,
+            hint,
         } = error;
-        acc += `- ${message} on line ${pos.line}:${pos.column} until ${endPos.line}:${endPos.column}\n`;
+        const shouldShowEndLine = pos.line !== endPos.line;
+        acc += `- Line ${pos.line}${shouldShowEndLine ? `-${endPos.line}` : ''}: ${message}. ${hint}\n`;
         return acc;
     }, "Failed with these errors:\n\n");
 }
