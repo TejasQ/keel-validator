@@ -8,8 +8,8 @@ export const getKeel = async () => {
         return globalThis.keel;
     }
     const go = new Go()
-    const wasmBuffer = await readFile(join(__dirname, "lib", "main.wasm"));
-    const module = await WebAssembly.instantiate(wasmBuffer, { gojs: go.importObject.go });
+    const { wasm } = require("./lib/wasm.js");
+    const module = await WebAssembly.instantiate(wasm, go.importObject);
     const instance = module.instance;
     go.run(instance); // Populate the global namespace with `keel`
     return globalThis.keel as unknown as keel;
