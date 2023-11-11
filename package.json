@@ -1,0 +1,26 @@
+{
+  "name": "@tejaskumar/keel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/golang-wasm-exec": "^1.15.2",
+    "@types/node": "^18.11.18",
+    "tsup": "^7.2.0",
+    "tsx": "^3.12.6",
+    "typescript": "^4.9.4",
+    "vitest": "^0.27.2"
+  },
+  "dependencies": {
+    "@teamkeel/functions-runtime": "^0.370.1",
+    "@teamkeel/testing-runtime": "^0.370.1",
+    "kysely": "^0.23.4",
+    "node-fetch": "^3.3.0"
+  }
+}

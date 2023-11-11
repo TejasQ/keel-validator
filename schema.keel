@@ -1,0 +1,13 @@
+model Attempt {
+    actions {
+        read validate(ValidationInput) returns (ValidationOutput)
+    }
+}
+
+message ValidationInput {
+    schema Text
+}
+
+message ValidationOutput {
+    errors Text
+}

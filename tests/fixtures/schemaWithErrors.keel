@@ -1,0 +1,94 @@
+model Account {
+    fields {
+        name Text
+        // Available data types are Text, Number, Boolean, Timestamp, Date, ID or another model name for relations
+        email Text @unique
+        description Text?
+        // ? means the field can be null
+        type AccountType @default(AccountType.User)
+        teams UserTeam[]
+        identity Identity @unique
+        // Identity is a built in model that represents a logged in user. Users should always have a unique identity field and it's never optional
+    }
+
+    // All models automatically have an ID, createdAt and updatedAt field. You NEVER need to add these to a model
+    actions {
+        get getAccount(id)
+        create createAccount() with (name) {
+            @set(account.identity = ctx.identity)
+            @permission(expression: true)
+        }
+        update updateAccount(id) with (name?, description?)
+        update updateAccountName(id) with (name)
+        update updateAccountDescription(id) with (description)
+        list listAccount() {
+            @where(account.identity == ctx.identity)
+        }
+        delete deleteAccount(id)
+        get customGet(id) @function
+        // Actions can be extended with typescript by adding the @function directive
+        read customReadFunction(Any) returns (Any)
+        // For custom functions, use the read or write action type
+        write customWriteFunction(Any) returns (Any)
+        // 
+    }
+
+    @permission(
+        actions: [create, get, list, update, delete],
+        expression: ctx.identity == account.identity
+    )
+
+    // Multiple permission directives are or'd together so only one needs to pass
+    @permission(
+        actions: [create, get, list, update, delete],
+        expression: ctx.identity.user.type == AccountType.Admin
+    )
+}
+
+// This is a join table to create a many to many relationship
+model UserTeam {
+    fields {
+        user User
+        team Team
+    }
+
+    // These actions create the join entry. So should be named in such a way that this behaviour is clear
+    actions {
+        // Referencing a related model by id will link an existing record. Providing related model fields will create the related entry as part of this create
+        create createNewTeam() with (team.name) {
+            @set(userTeam.user.id = ctx.identity.user.id)
+        }
+        create addToTeam() with (user, team)
+        list listTeamMembers(team.id)
+        delete removeFromTeam(id)
+    }
+
+    @permission(
+        actions: [create, get, list, update, delete],
+        expression: userTeam.user = ctx.identity.user
+    )
+}
+
+model Team {
+    fields {
+        name Text
+        members UserTeam[]
+    }
+
+    actions {
+        get getTeam(id)
+    }
+}
+
+message CustomWriteFunctionInput {
+    title Text
+}
+
+message CustomWriteFunctionOutput {
+    success Boolean
+}
+
+enum AccountType {
+    User
+    Admin
+}
