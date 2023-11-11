@@ -11,7 +11,7 @@ describe("validate", async () => {
             schemaFiles: [
                 {
                     filename: "schema.keel",
-                    contents: await readFile(join(__dirname, "fixtures", "schema.keel"), "utf8"),
+                    contents: await readFile(join(__dirname, "fixtures", "schema.keel.txt"), "utf8"),
                 },
             ],
         })
@@ -25,7 +25,7 @@ describe("validate", async () => {
             schemaFiles: [
                 {
                     filename: "schema.keel",
-                    contents: await readFile(join(__dirname, "fixtures", "schemaWithErrors.keel"), "utf8"),
+                    contents: await readFile(join(__dirname, "fixtures", "schemaWithErrors.keel.txt"), "utf8"),
                 },
             ],
         })
