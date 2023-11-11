@@ -1,6 +1,8 @@
-model Attempt {
+model Validation {
     actions {
-        read validate(ValidationInput) returns (ValidationOutput)
+        read validate(ValidationInput) returns (ValidationOutput) {
+            @permission(expression: true)
+        }
     }
 }
 
