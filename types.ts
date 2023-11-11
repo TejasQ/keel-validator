@@ -1,4 +1,3 @@
-
 declare global {
     var keel: keel | undefined;
 }

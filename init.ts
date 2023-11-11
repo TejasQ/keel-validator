@@ -1,7 +1,8 @@
 import type { keel } from "./types";
+import "@types/golang-wasm-exec"; // types for `Go` class
 
 export const getKeel = async () => {
-    await import("./lib/wasm_exec_node");
+    await import("./lib/wasm_exec_node.js");
     const { readFile } = await import("fs/promises");
     const { join } = await import("path");
     if (globalThis.keel) {
