@@ -1,3 +1,5 @@
+import "@types/golang-wasm-exec"
+
 declare global {
     var keel: keel | undefined;
 }
